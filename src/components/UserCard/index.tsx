@@ -18,7 +18,7 @@ const UserCard = ({ user }: Props) => {
           className="rounded-full"
         />
       )}
-      <div>
+      <div className="px-4 font-semibold">
         <h3>{user.username}</h3>
         <p>{user.email}</p>
       </div>

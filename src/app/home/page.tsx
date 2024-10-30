@@ -65,7 +65,7 @@ const HomePage = () => {
 
   const statusCount = projects.reduce(
     (acc: Record<string, number>, project: Project) => {
-      const status = project.endDate ? "Completed" : "Active";
+      const status = project.dueDate ? "Completed" : "Active";
       acc[status] = (acc[status] || 0) + 1;
       return acc;
     },
@@ -138,9 +138,7 @@ const HomePage = () => {
           </ResponsiveContainer>
         </div>
         <div className="rounded-lg bg-white p-4 shadow dark:bg-dark-secondary md:col-span-2">
-          <h3 className="mb-4 text-lg font-semibold dark:text-white">
-            Your Tasks
-          </h3>
+          <h3 className="mb-4 text-lg font-semibold dark:text-white">Tasks</h3>
           <div style={{ height: 400, width: "100%" }}>
             <DataGrid
               rows={tasks}

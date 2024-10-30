@@ -1,5 +1,6 @@
 "use client";
 
+import AttachmentCard from "@/components/AttachmentCard";
 import Header from "@/components/Header";
 import ProjectCard from "@/components/ProjectCard";
 import TaskCard from "@/components/TaskCard";
@@ -10,13 +11,12 @@ import React, { useEffect, useState } from "react";
 
 const Search = () => {
   const [searchTerm, setSearchTerm] = useState("");
-  const [selectedValue, setSelectedValue] = useState("");
   const {
     data: searchResults,
     isLoading,
     isError,
   } = useSearchQuery(searchTerm, {
-    skip: searchTerm.length < 3,
+    skip: searchTerm.length < 2,
   });
 
   const handleSearch = debounce(
@@ -25,10 +25,6 @@ const Search = () => {
     },
     500,
   );
-  const handleSelect = (event: { target: { value: any } }) => {
-    console.log(event.target.value);
-    setSelectedValue(event.target.value);
-  };
 
   useEffect(() => {
     return handleSearch.cancel;
@@ -36,28 +32,16 @@ const Search = () => {
 
   return (
     <div className="p-8">
-      <div className="flex gap-20">
-        <Header name="Search" />
-        <Header name="Type" />
-      </div>
-      <div className="flex gap-8">
+      <Header name="Search" />
+      <div>
         <input
           type="text"
           placeholder="Search..."
           className="w-1/2 rounded border p-3 shadow"
           onChange={handleSearch}
         />
-        <select
-          className="focus:shadow-outline block w-1/6 appearance-none rounded border border-gray-400 bg-white p-3 leading-tight shadow hover:border-gray-500 focus:outline-none dark:border-dark-secondary dark:bg-dark-secondary dark:text-white"
-          value={selectedValue}
-          onChange={handleSelect}
-        >
-          <option value="all">All</option>
-          <option value="tasks">Tasks</option>
-          <option value="projects">Projects</option>
-          <option value="users">Users</option>
-        </select>
       </div>
+      {/* Need Styling */}
       <div className="p-5">
         {isLoading && <p>Loading...</p>}
         {isError && <p>Error occurred while fetching search results.</p>}
@@ -78,10 +62,18 @@ const Search = () => {
             ))}
 
             {searchResults.users && searchResults.users?.length > 0 && (
-              <h2>Users</h2>
+              <h2 className="dark:text-white">Users</h2>
             )}
             {searchResults.users?.map((user) => (
               <UserCard key={user.userId} user={user} />
+            ))}
+
+            {searchResults.attachments &&
+              searchResults.attachments?.length > 0 && (
+                <h2 className="dark:text-white">Attachments</h2>
+              )}
+            {searchResults.attachments?.map((attachment) => (
+              <AttachmentCard key={attachment.id} attachment={attachment} />
             ))}
           </div>
         )}

@@ -11,7 +11,7 @@ const ProjectCard = ({ project }: Props) => {
       <h3>{project.name}</h3>
       <p>{project.description}</p>
       <p>Start Date: {project.startDate}</p>
-      <p>End Date: {project.endDate}</p>
+      <p>Due Date: {project.dueDate}</p>
     </div>
   );
 };
